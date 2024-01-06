@@ -1,0 +1,1 @@
+export const formatDate = (date, options = { weekday:"short" }) => new Intl.DateTimeFormat(navigator.language, options).format(new Date(date))
