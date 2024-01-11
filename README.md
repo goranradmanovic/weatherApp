@@ -4,8 +4,8 @@
 
 ## Project preview
 
-![Current Weather](./src/images/preview/current.png)
+![Current Weather](./src/assets/images/preview/current.png)
 
 ---
 
-![Forecasts Weather](./src/images/preview/forecasts.png)
+![Forecasts Weather](./src/assets/images/preview/forecasts.png)
