@@ -1,120 +1,112 @@
 <template>
-  <div class="justify-center max-w-md mt-10">
-    <h1 class="font-extrabold tracking-tigh text-3xl leading-10">
-      Ready for the challenge?
-    </h1>
-    <div class="mt-8">
-      <section>
-        <h2 class="font-bold text-2xl leading-6">Exercise 1</h2>
-        <div class="mt-5">
-          <p>
-            In the first exercise the goal would be to extend the current app
-            with some additional output. For this you should integrate an public
-            available Rest-API or GraphQL-API (see below for examples).
-          </p>
-          <p>
-            It's your own decision what kind of output you use and in which way
-            it will be displayed, but it should be in a creative way and you can
-            use this possibility to show us your existing skills. For example
-            you can add a list output as a starting point and show additional
-            information in a detail page (or other output types).
-          </p>
-          <br />
-          <p>Here are some examples for a public available API:</p>
-          <ul>
-            <li>
-              <a
-                class="text-blue-600 hover:text-blue-800 cursor-pointer"
-                href="https://github.com/APIs-guru/graphql-apis"
-                target="_blank"
-                >Public GraphQL-API Collection</a
-              >
-              (e.g.
-              <a
-                class="text-blue-600 hover:text-blue-800 cursor-pointer"
-                href="https://api.spacex.land/graphql/"
-                target="_blank"
-                >SpaceX-API</a
-              >)
-            </li>
-            <li>
-              <a
-                class="text-blue-600 hover:text-blue-800 cursor-pointer"
-                href="https://github.com/public-apis/public-apis"
-                target="_blank"
-                >Public REST-API Collection</a
-              >
-              (e.g.
-              <a
-                class="text-blue-600 hover:text-blue-800 cursor-pointer"
-                href="https://pokeapi.co/docs/v2"
-                target="_blank"
-                >Pokemon-API</a
-              >)
-            </li>
-          </ul>
-          -
+  <div class="justify-center w-full min-h-[100dvh] bg-gradient-to-br from-sky-400 via-sky-600 to-sky-800">
+    <h1 class="font-medium tracking-tigh text-5xl leading-10 mt-10 mb-10 text-white">Current Conditions</h1>
+
+    <section v-if="!loading" class="flex flex-col justify-center items-center">
+      <div class="w-full max-w-screen-sm bg-white p-10 rounded-xl ring-8 ring-white ring-opacity-40">
+        <div class="flex justify-between">
+          <div class="flex flex-col">
+            <span class="text-6xl font-bold text-left">{{ useRoundNum(weatherData.main.temp) }}°C</span>
+            <span class="font-semibold mt-1 text-gray-500 text-left pl-1">{{ weatherData.name }}, {{ weatherData.sys.country }}, {{ useFormatDate(weatherData.dt, formatH) }}</span>
+            <span class="font-semibold mt-1 text-gray-500 text-left capitalize pl-1">{{ weatherData.weather[0].description }}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: weatherData.weather[0].icon })" alt="Weather Icon" class="h-24 w-24">
+            <span class="mt-2 font-semibold text-gray-500 text-center capitalize">{{ weatherData.weather[0].main }}</span>
+          </div>
         </div>
-        <div class="mt-5">
-          <a
-            class="text-blue-600 hover:text-blue-800 cursor-pointer"
-            v-on:click="showNextExercise('second')"
-            >{{
-              showExercise.second
-                ? 'Hide the next exercise'
-                : 'Show the next exercise'
-            }}</a
-          >
+
+        <hr class="mt-10 mb-10"/>
+
+        <div class="flex justify-between">
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: '04d' })" alt="Weahter icon" class="h-10 w-10" title="Clouds">
+            <span class="font-semibold text-xs" title="Clouds">C: {{ weatherData.clouds.all }}%</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'wi' })" alt="Weahter icon" class="h-10 w-10" title="Wind direction">
+            <span class="font-semibold text-xs text-left" title="Speed">{{ useDegToTxt(weatherData.wind.deg) }}</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'sp' })" alt="Weahter icon" class="h-10 w-10" title="Wind Speed">
+            <span class="font-semibold text-xs text-left" title="Speed">S: {{ weatherData.wind.speed }} km/h</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'gu' })" alt="Weahter icon" class="h-10 w-10" title="Wind Gust">
+            <span class="font-semibold text-xs text-left" title="Gust">G: {{ weatherData.wind.gust }} km/h</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'wd' })" alt="Weahter icon" class="h-10 w-10" title="Humidity">
+            <span class="font-semibold text-xs text-left" title="Humidity">H: {{ weatherData.main.humidity }} %</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'pr' })" alt="Weahter icon" class="h-10 w-10" title="Pressure">
+            <span class="font-semibold text-xs text-left" title="Pressure">P: {{ weatherData.main.humidity }} bar</span>
+          </div>
         </div>
-      </section>
-      <section v-if="showExercise.second" class="mt-10">
-        <h2 class="font-bold text-2xl leading-6">Exercise 2</h2>
-        <div class="mt-5">
-          <p>
-            As a second exercise you should add an global tost/notify handling
-            in the already extended app. Maybe you can do this in a easy way
-            with the new composition API.
-          </p>
-          <p>
-            For example you can show a toast after something was fetched from
-            the public API (which you implemented before) or also in error
-            situtations.
-          </p>
+
+        <hr class="mt-10 mb-10"/>
+
+        <div class="flex justify-between">
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'mit' })" alt="Weahter icon" class="h-10 w-10" title="Min Temp.">
+            <span class="font-semibold text-xs text-left" title="Min Temp.">Min: {{ useRoundNum(weatherData.main.temp_min) }}°C</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'mxt' })" alt="Weahter icon" class="h-10 w-10" title="Max Temp.">
+            <span class="font-semibold text-xs text-left" title="Max Temp.">Max: {{ useRoundNum(weatherData.main.temp_max) }}°C</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'fl' })" alt="Weahter icon" class="h-10 w-10" title="Feels Like">
+            <span class="font-semibold text-xs text-left" title="Feels Like">Feels: {{ useRoundNum(weatherData.main.feels_like) }}°C</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'sr' })" alt="Weahter icon" class="h-10 w-10" title="Sunrise">
+            <span class="font-semibold text-xs text-left" title="Sunrise">{{ useFormatDate(weatherData.sys.sunrise, formatH) }}</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'ss' })" alt="Weahter icon" class="h-10 w-10" title="Sunset">
+            <span class="font-semibold text-xs text-left" title="Sunset">{{ useFormatDate(weatherData.sys.sunset, formatH) }}</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img :src="useGetImageUrl({ ...iconOpt, name: 'vi' })" alt="Weahter icon" class="h-10 w-10" title="Visibility">
+            <span class="font-semibold text-xs text-left" title="Visibility">V: {{ useRoundNum(weatherData.visibility / 1000) }} km</span>
+          </div>
         </div>
-        <div class="mt-5">
-          <a
-            class="text-blue-600 hover:text-blue-800 cursor-pointer"
-            v-on:click="showNextExercise('third')"
-            >{{
-              showExercise.third
-                ? 'Hide the next exercise'
-                : 'Show the next exercise'
-            }}</a
-          >
-        </div>
-      </section>
-      <section v-if="showExercise.third" class="mt-10">
-        <h2 class="font-bold text-2xl leading-6">Exercise 3</h2>
-        <div class="mt-5">
-          <p>
-            Please integrate a testing library in the current app. We're pretty
-            sure that you have some components which needs to be tested.
-          </p>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
+    <section v-else class="flex flex-col justify-center items-center">
+      <Loader />
+    </section>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+  import { useGetImageUrl } from '../composable/getImageUrl.js'
+  import { useFormatDate } from '../composable/formatDate.js'
+  import { useRoundNum } from '../composable/roundNum.js'
+  import { useNotification } from '../composable/notification.js'
+  import { useGetLocationData } from '../composable/getLocationData.js'
+  import { useGetWeatherData } from '../composable/getWeatherData.js'
+  import { useDegToTxt } from '../composable/degToTxt.js'
+  import { weatherData, loading, iconOpt, formatH, locationOpt, cWOpt } from '../utils/shared-vars.js'
+  import Loader from '../components/Loader.vue'
 
-const showExercise = reactive({
-  second: false,
-  third: false,
-})
+  let cord = null
 
-const showNextExercise = (exercise) => {
-  showExercise[exercise] = !showExercise[exercise]
-}
+  loading.value = true
+  cord = await useGetLocationData(locationOpt)
+
+  weatherData.value = cord ? await useGetWeatherData({ ...cWOpt, cord: cord }) : false
+  loading.value = false
 </script>

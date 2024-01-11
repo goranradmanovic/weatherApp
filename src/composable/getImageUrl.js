@@ -1,1 +1,1 @@
-export const getImageUrl = imgOptions => new URL(`../assets/${imgOptions.folder}/${imgOptions.name}.${imgOptions.ext}`, import.meta.url).href
+export const useGetImageUrl = imgOptions => new URL(`../assets/${imgOptions.folder}/${imgOptions.name}.${imgOptions.ext}`, import.meta.url).href

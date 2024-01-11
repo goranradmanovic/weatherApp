@@ -1,1 +1,1 @@
-export const roundNum = num => Math.round(num)
+export const useRoundNum = num => Math.round(num)

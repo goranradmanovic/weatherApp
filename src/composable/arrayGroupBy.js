@@ -1,3 +1,3 @@
-import { formatDate } from './formatDate.js'
+import { useFormatDate } from './formatDate.js'
 
-export const arrayGroupBy = arr => Object.entries(Object.groupBy(arr, ({ dt_txt }) => formatDate(dt_txt)))
+export const useArrayGroupBy = arr => Object.entries(Object.groupBy(arr, ({ dt_txt }) => useFormatDate(dt_txt)))

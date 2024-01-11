@@ -21,7 +21,7 @@ const mainRoutes = [
 
 const routes = [
   {
-    path: '/error',
+    path: '/404',
     alias: '/:pathMatch(.*)*',
     name: 'Error',
     props: true,

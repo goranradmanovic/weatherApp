@@ -1,10 +1,11 @@
-# Frontend Coding Challenge
+# Weather App
 
-Clone this repo, run `npm install` and start the project using `npm run dev`.
-The instructions for completing the task can be found in the site that will launch.
+## This project is weather app, created with VueJS and Tailwind
 
-## Additional Hints
+## Project preview
 
-### Recommended IDE Setup
+![Current Weather](./src/images/preview/current.png)
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+---
+
+![Forecasts Weather](./src/images/preview/forecasts.png)
