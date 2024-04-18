@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { getImageUrl } from '../../src/composable/getImageUrl.js'
+import { useGetImageUrl } from '../../src/composable/getImageUrl.js'
 
-describe('getImageUrl', () => {
+describe('useGetImageUrl', () => {
 
 	it('should return the correct URL for a given image name', () => {
 		const imgOpt = {
@@ -9,7 +9,7 @@ describe('getImageUrl', () => {
 				name : '01d',
 				ext: 'svg'
 			},
-			result = getImageUrl(imgOpt),
+			result = useGetImageUrl(imgOpt),
 			expectedUrl = new URL(`../../src/assets/${imgOpt.folder}/${imgOpt.name}.${imgOpt.ext}`, import.meta.url).href
 
 		expect(result).toBe(expectedUrl)

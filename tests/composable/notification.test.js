@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { notification } from '../../src/composable/notification.js'
+import { useNotification } from '../../src/composable/notification.js'
 
-describe('notification', () => {
+describe('useNotification', () => {
 
 	it('should call Swal.fire with the provided parameters', () => {
 		const type = 'success',
 			msg = 'Hello, Vitest!',
 			options = { position: "top-end", showConfirmButton: false, timer: 2000 },
-			result = notification(type, msg, options)
+			result = useNotification(type, msg, options)
 
 		// expect swal icon to be like type
 		expect(result.params.icon).toBe(type)
